@@ -2,32 +2,32 @@ import React from "react";
 import * as Phaser from "phaser";
 import { SceneMain } from "./Scene/SceneMain";
 class Game extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      config: null
-    };
-    this.game = null;
-    this.gameContainer = React.createRef();
-  }
   render() {
-    return (
-      <div ref={this.gameContainer} style={{ border: "10px solid red" }}>
-        {new Phaser.Game(this.state.config)}
-      </div>
-    );
+    //console.log(JSON.stringify(this.gameContainer.current.props.id));
+    return <div id={"game-container"} />;
+  }
+
+  shouldComponentUpdate() {
+    return false;
   }
 
   componentDidMount() {
     const config = {
       type: Phaser.AUTO, // let browser what web graphic libary to use : canvas or WebGL
-      width: 1200,
-      height: 1200,
-      parent: [this.gameContainer.current.id], // what container to use
-      scene: [SceneMain] // Game Screens
+      width: 800,
+      height: 600,
+      parent: "game-container", // what container to use
+      scene: SceneMain, // Game Screens
+      physics: {
+        default: "arcade",
+        arcade: {
+          gravity: { y: 300 },
+          debug: false
+        }
+      }
     };
-    this.setState({ config });
-    // this.game = new Phaser.Game(this.state.config);
+
+    this.game = new Phaser.Game(config);
   }
 }
 export default Game;
